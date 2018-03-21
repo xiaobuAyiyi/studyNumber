@@ -143,6 +143,7 @@ cc.Class({
     // 添加触摸监听事件
     addTouchEvents: function (node) {
         // 传回节点位置,触摸开始时
+        
         UITools.startClick(node, this._onStartClick, this);
         // node.on('touchstart', function (event) {
         //     // 代表当前节点被选中
