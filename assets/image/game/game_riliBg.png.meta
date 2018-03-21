@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "10f1bc33-a16d-4a3d-9b27-96adfe9b7efe",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "game_riliBg": {
+      "ver": "1.0.3",
+      "uuid": "2c07fa63-be1e-49d4-96f3-1ebd86b4bf67",
+      "rawTextureUuid": "10f1bc33-a16d-4a3d-9b27-96adfe9b7efe",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 1,
+      "offsetY": -1.5,
+      "trimX": 4,
+      "trimY": 3,
+      "width": 422,
+      "height": 426,
+      "rawWidth": 428,
+      "rawHeight": 429,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}
