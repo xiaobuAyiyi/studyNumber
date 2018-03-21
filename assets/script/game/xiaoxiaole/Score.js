@@ -10,17 +10,11 @@ cc.Class({
         },
 
         score:0,
-        _reward: 0,// 分数奖励倍数
     },
 
-    // 分数奖励倍数
+    // 更新分数
     setReward:function(reward){
-        this._reward = reward;
+        this.score += reward;
+        this.scoreLabel.string = "Score:" + this.score;
     },
-
-    // 更新分数显示
-    updateScore:function(){
-        this.score += this._reward;
-        this.scoreLabel.string = "Score:"+this.score;
-    }
 });

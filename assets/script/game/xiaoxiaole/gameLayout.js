@@ -1,6 +1,8 @@
 const Star = require('Star');
 const EventBus = require('EventBus');
 const UITools = require('UITools');
+const Score = require('Score');
+const Event = require('event');
 
 cc.Class({
     extends: cc.Component,
@@ -29,8 +31,9 @@ cc.Class({
         _pSet: null, // 坐标矩阵集合
         _stars: null,
         _mask: null,
-        _p1: null,
-        _p2: null,
+        _startPosition: null,
+        _endPosition: null,
+        _node: null,
     },
 
     onLoad: function () {
@@ -97,101 +100,108 @@ cc.Class({
         // console.log('节点集合',this._pSet)
     },
 
-    _onStartClick() {
-        // 代表当前节点被选中
-        console.log('我是当前节点',event)
-        event.currentTarget.select = true;
-        // this._p1 = node.getComponent(Star).pos;
-        console.log('节点的初始位置', this._p1);
-    },
+    // _onStartClick(event) {
+    //     // 代表当前节点被选中
+    //     this._node.select = true;
+    //     this_startPosition = this._node.getComponent(Star).pos;
+    //     console.log('节点的初始位置', this_startPosition);
+    // },
 
-    _onMoveClick() {
-        if (event.currentTarget.select) {
-            // 获取当前触点的位置
-            let x = event.getLocationX();
-            let y = event.getLocationY();
+    // _onMoveClick(event) {
+    //     if (this._node.select) {
+    //         // 获取当前触点的位置
+    //         let x = event.getLocationX();
+    //         let y = event.getLocationY();
 
-            event.currentTarget.setPosition(x, y);
-            console.log('当前节点移动到(' + x + "," + y + ')');
-        }
-    },
+    //         this._node.setPosition(x, y);
+    //         console.log('当前节点移动到(' + x + "," + y + ')');
+    //     }
+    // },
 
-    _onClick() {
-        // 将节点的选中状态置为false;
-        event.currentTarget.select = false;
+    // _onClick(event) {
+    //     // 将节点的选中状态置为false;
+    //     this._node.select = false;
 
-        let x = event.getLocationX();
-        let y = event.getLocationY();
+    //     let x = event.getLocationX();
+    //     let y = event.getLocationY();
 
-        //将节点的坐标转换为当前矩阵的坐标
-        this._p2 = this.PositionToPos(x, y);
-        console.log('节点移动结束时的位置', this._p2);
+    //     //将节点的坐标转换为当前矩阵的坐标
+    //     this._endPosition = this.PositionToPos(x, y);
+    //     console.log('节点移动结束时的位置', this._endPosition);
 
-        // 如果节点移动的开始和结束位置在矩阵中相邻,并且节点的结束位置存在
-        if (this._isAround(this._p1, this._p2) && typeof (this._stars[this._p2.x][this._p2.y]) != 'undefined') {
-            console.log('isAround');
-            //交换两个数字位置
-            this._changeTwoPos(this._p1, this._p2);
+    //     // 如果节点移动的开始和结束位置在矩阵中相邻,并且节点的结束位置存在
+    //     if (this._isAround(this_startPosition, this._endPosition) && typeof (this._stars[this._endPosition.x][this._endPosition.y]) != 'undefined') {
+    //         console.log('isAround');
+    //         //交换两个数字位置
+    //         this._changeTwoPos(this_startPosition, this._endPosition);
 
-            this._check(); // check
+    //         this._check(); // check
 
-        } else {
-            event.currentTarget.setPosition(this._pSet[this._p1.x][this_p1.y]);
-        }
-    },
+    //     } else {
+    //         this._node.setPosition(this._pSet[this_startPosition.x][this_startPosition.y]);
+    //     }
+    // },
 
     // 添加触摸监听事件
     addTouchEvents: function (node) {
-        // 传回节点位置,触摸开始时
-        
-        UITools.startClick(node, this._onStartClick, this);
-        // node.on('touchstart', function (event) {
-        //     // 代表当前节点被选中
-        //     node.select = true;
 
-        //     this._p1 = node.getComponent(Star).pos;
-        //     console.log('节点的初始位置', this._p1);
-        // }, this);
+        // let p1 = null;
+        // let p2 = null;
+        // 传回节点位置,触摸开始时
+
+        this._node = node;
+        // UITools.startClick(node, this._onStartClick, this);
+        // this._node.on('touchstart', this._onStartClick, this);
+        let me = this;
+        node.on('touchstart', function (event) {
+            // 代表当前节点被选中
+            node.select = true;
+
+            me._startPosition = node.getComponent(Star).pos;
+            console.log('节点的初始位置', me._startPosition);
+        }, this);
 
         // 触摸节点移动时
-        UITools.moveClick(node, this._onMoveClick, this);
-        // node.on('touchmove', function (event) {
-        //     if (node.select) {
-        //         // 获取当前触点的位置
-        //         let x = event.getLocationX();
-        //         let y = event.getLocationY();
+        // this._node.on('touchmove', this._onMoveClick, this);
+        // UITools.moveClick(node, this._onMoveClick, this);
+        node.on('touchmove', function (event) {
+            if (node.select) {
+                console.log(event)
+                // 获取当前触点的位置
+                let x = event.getLocationX();
+                let y = event.getLocationY();
 
-        //         node.setPosition(x, y);
-        //         console.log('当前节点移动到(' + x + "," + y + ')');
-        //     }
-        // }, this);
+                node.setPosition(x, y);
+                console.log('当前节点移动到(' + x + "," + y + ')');
+            }
+        }, this);
 
         // 触摸结束时
-        UITools.onClick(node, this._onClick, this);
-        // node.on('touchend', function (event) {
-        //     // 将节点的选中状态置为false;
-        //     node.select = false;
+        // this._node.on('touchend', this._onClick, this)
+        // UITools.onClick(node, this._onClick, this);
+        node.on('touchend', function (event) {
+            // 将节点的选中状态置为false;
+            node.select = false;
 
-        //     let x = event.getLocationX();
-        //     let y = event.getLocationY();
+            let x = event.getLocationX();
+            let y = event.getLocationY();
 
-        //     //将节点的坐标转换为当前矩阵的坐标
-        //     this._p2 = this.PositionToPos(x, y);
-        //     console.log('节点移动结束时的位置', this._p2);
+            //将节点的坐标转换为当前矩阵的坐标
+            me._endPosition = me.PositionToPos(x, y);
+            console.log('节点移动结束时的位置', me._endPosition);
 
-        //     // 如果节点移动的开始和结束位置在矩阵中相邻,并且节点的结束位置存在
-        //     if (this._isAround(this._p1, this._p2) && typeof (this._stars[this._p2.x][this._p2.y]) != 'undefined') {
-        //         console.log('isAround');
-        //         //交换两个数字位置
-        //         this._changeTwoPos(this._p1, this._p2);
+            // 如果节点移动的开始和结束位置在矩阵中相邻,并且节点的结束位置存在
+            if (me._isAround(me._startPosition, me._endPosition) && typeof (me._stars[me._endPosition.x][me._endPosition.y]) != 'undefined') {
+                console.log('isAround');
+                //交换两个数字位置
+                me._changeTwoPos(me._startPosition, me._endPosition);
 
-        //         this._check(); // check
+                me._check(); // check
+            } else {
+                node.setPosition(me._pSet[me._startPosition.x][me_startPosition.y]);
+            }
 
-        //     } else {
-        //         node.setPosition(this._pSet[this._p1.x][this_p1.y]);
-        //     }
-
-        // }, this);
+        }, this);
     },
 
     // 屏幕坐标转矩阵坐标
@@ -246,7 +256,6 @@ cc.Class({
     // 计算分数
     _calScore: function (num) {
         return num * 10;
-
     },
 
     // 纵向检查star的相连形况
@@ -389,7 +398,7 @@ cc.Class({
         console.log('删除后的星星数', starNumber)
         if (starNumber <= 100) {
             //发送事件创建结束预制
-            EventBus.emit('xiaoxiaoleOver');
+            EventBus.emit(Event.event.xiaoxiaoleOver);
             // 移除这个界面的所以监听事件
         }
     },
@@ -401,6 +410,8 @@ cc.Class({
 
         }, this);
 
+        let starsLength = this._stars.length;
+        
         for (let i = 0; i < this._stars.length; i++) {
             for (let j = 0; j < this._stars[i].length; j++) {
                 let act;
@@ -418,8 +429,11 @@ cc.Class({
 
     _updateScore: function () {
         // 更新分数显示
-        let score = this.Score.getComponent('Score');
-        score.setReward(this._reward);
-        score.updateScore();
+        Score.setReward(this._reward);
     },
 });
+
+
+//释放内存,销毁stars
+//提前读取数组长度
+//驼峰,第一个字母小写

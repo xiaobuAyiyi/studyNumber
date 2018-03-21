@@ -43,7 +43,7 @@ UITools.setEnabled = function (target, enable) {
  */
 UITools.onClick = function (target, callback, domain) {
     if (target && target instanceof cc.Node) {
-        target.on(cc.Node.EventType.TOUCH_END, callback, domain);
+        target.on('touchmove', callback, domain);
     }
 }
 
@@ -55,7 +55,7 @@ UITools.onClick = function (target, callback, domain) {
  */
 UITools.offClick = function (target, callback, domain) {
     if (target && target instanceof cc.Node) {
-        target.off(cc.Node.EventType.TOUCH_END, callback, domain);
+        target.off('touchmove', callback, domain);
     }
 }
 

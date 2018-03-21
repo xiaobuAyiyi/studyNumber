@@ -13,6 +13,7 @@ cc.Class({
     },
 
     onLoad () {
+        console.log('加载');
         UITools.onClick(this.close, this._onClose, this);
     },
 
@@ -21,7 +22,9 @@ cc.Class({
     },
 
     //关闭按钮回调
-    _onClose() {
-        cc.director.loadScene("Game");
+    _onClose(event) {
+        console.log('关闭游戏');
+        this.node.destroy();
+        // cc.director.loadScene("Game");
     },
 });

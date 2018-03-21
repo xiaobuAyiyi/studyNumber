@@ -11,7 +11,7 @@ cc.Class({
             tooltip: '游戏的名称,此属性控制游戏名称节点的动画显示',
         },
 
-        quit:{
+        quitButton:{
             default:null,
             type:cc.Node,
             displayName: '退出按钮',
@@ -95,14 +95,14 @@ cc.Class({
     },
 
     _onEvent() {
-        UITools.onClick(this.quit, this._onQuit, this);
+        UITools.onClick(this.quitButton, this._onQuitButton, this);
         UITools.onClick(this.musicButton, this._onMusic, this);
         UITools.onClick(this.startButton, this._onStart, this);
         this.slider_h.node.on('slide', this._onSliderHEvent, this);
     },
 
     _offEvent() {
-        UITools.offClick(this.quit, this._onQuit);
+        UITools.offClick(this.quitButton, this._onQuitButton);
         UITools.offClick(this.musicButton, this._onMusic);
         UITools.offClick(this.startButton, this._onStart);
         this.slider_h.node.off('slide', this._onSliderHEvent);
@@ -197,7 +197,7 @@ cc.Class({
     },
 
     //quit按钮的回调
-    _onQuit(){
+    _onQuitButton(){
         cc.game.end();
     },
 

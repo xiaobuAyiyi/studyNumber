@@ -1,4 +1,5 @@
 const EventBus = require('EventBus');
+const Event = require('event');
 
 cc.Class({
     extends: cc.Component,
@@ -12,11 +13,11 @@ cc.Class({
     },
 
     onLoad() {
-        EventBus.on('xiaoxiaoleOver', this._oneEliminateOver, this);
+        EventBus.on(Event.event.xiaoxiaoleOver, this._oneEliminateOver, this);
     },
 
     onDistroy() {
-        EventBus.off('xiaoxiaoleOver', this._oneEliminateOver);
+        EventBus.off(Event.event.xiaoxiaoleOver, this._oneEliminateOver);
     },
 
     _oneEliminateOver() {

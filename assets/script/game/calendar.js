@@ -1,4 +1,5 @@
 const UITools = require('UITools');
+const NUMBER = 'number';
 
 cc.Class({
     extends: cc.Component,
@@ -7,25 +8,25 @@ cc.Class({
         leftButton: {
             default: null,
             type: cc.Node,
-            diaplayName: '左按钮'
+            diaplayName: '左按钮',
         },
 
         rigthtButton: {
             default: null,
             type: cc.Node,
-            diaplayName: '右按钮'
+            diaplayName: '右按钮',
         },
 
         number: {
             default: null,
             type: cc.Label,
-            diaplayName: '数字显示框'
+            diaplayName: '数字显示框',
         },
 
-        back: {
+        backButton: {
             default: null,
             type: cc.Node,
-            diaplayName: '返回按钮'
+            diaplayName: '返回按钮',
         },
     },
 
@@ -39,7 +40,7 @@ cc.Class({
     },
 
     _init() {
-        let math = cc.sys.localStorage.getItem('number');
+        let math = cc.sys.localStorage.getItem(NUMBER);
         if(math) {
             this.number.string = math;
         }
@@ -58,14 +59,14 @@ cc.Class({
         UITools.onClick(this.rigthtButton, this._onRigthtButton, this);
         
         //返回按钮的监听
-        UITools.onClick(this.back, this._onBack, this);
+        UITools.onClick(this.backButton, this._onBackButton, this);
     },
 
     //取消监听事件
     _offEvent() {
         UITools.offClick(this.leftButton, this._onLeftButton);
         UITools.offClick(this.rigthtButton, this._onRigthtButton);
-        UITools.offClick(this.back, this._onBack);
+        UITools.offClick(this.backButton, this._onBackButton);
         
     },
 
@@ -75,7 +76,7 @@ cc.Class({
         if(this.number.string != 1) {
             this.number.string--;
         }
-        cc.sys.localStorage.setItem('number', this.number.string);//本地存储
+        cc.sys.localStorage.setItem(NUMBER, this.number.string);//本地存储
     },
 
     //右按钮的回调
@@ -83,11 +84,15 @@ cc.Class({
         if(this.number.string != 9) {
             this.number.string++;
         }
-        cc.sys.localStorage.setItem('number', this.number.string);//本地存储
+        cc.sys.localStorage.setItem(NUMBER, this.number.string);//本地存储
     },
 
     //返回按钮回调
-    _onBack() {
+    _onBackButton() {
         cc.director.loadScene("start");//点击跳转场景
     },
 });
+
+
+//字符串
+//输入输出场景跳转,写成固定的方法

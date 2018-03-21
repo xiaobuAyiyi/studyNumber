@@ -36,7 +36,9 @@ cc.Class({
     },
 
     _onNumberButton() {
+        console.log('创建')
         let game_number = cc.instantiate(this.numberPrefab);
         cc.find("Canvas").addChild(game_number);
+        // console.log(cc.find("Canvas"))
     },
 });
