@@ -22,7 +22,6 @@ cc.Class({
     // use this for initialization
     onLoad: function () {
         UITools.onClick(this.close_node || this.node, this._onTouchUp.bind(this), this.node);
-
     },
 
     _onTouchUp: function (event) {

@@ -35,10 +35,9 @@ cc.Class({
         UITools.offClick(this.numberButton, this._onNumberButton, this);
     },
 
+    //创建数字消消消预制
     _onNumberButton() {
-        console.log('创建')
         let game_number = cc.instantiate(this.numberPrefab);
         cc.find("Canvas").addChild(game_number);
-        // console.log(cc.find("Canvas"))
     },
 });

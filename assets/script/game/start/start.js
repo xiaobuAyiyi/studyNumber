@@ -81,6 +81,7 @@ cc.Class({
         this.slider.node.off('slide', this._onSliderHEvent);
     },
 
+    //初始加载时默认隐藏音乐设置面板
     _hideMusicPanel() {
         this.musicPanel.active = false;
     },
@@ -91,18 +92,19 @@ cc.Class({
         this._updateMusicVolume(sender.progress);
     },
 
+    // 更新音量大小
     _updateMusicVolume (progress) {
         this.music.volume = progress;//调整音量大小
         this._volume = this.music.volume;//将音量设为全局变量
         // console.log('this.music.volume: ', this.music);
     },
 
-    //quit按钮的回调
+    //quit按钮的回调,关闭游戏
     _onQuitButton(){
         cc.game.end();
     },
 
-    //music按钮的回调
+    //music按钮的回调,打开音乐设置面板
     _onMusic(evet){
         this.musicPanel.active = true;
     },

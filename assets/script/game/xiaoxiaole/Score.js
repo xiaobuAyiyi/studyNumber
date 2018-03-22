@@ -12,7 +12,10 @@ cc.Class({
         score:0,
     },
 
-    // 更新分数
+    /**
+     * 更新分数
+     * reward 奖励分数
+     */
     setReward:function(reward){
         this.score += reward;
         this.scoreLabel.string = "Score:" + this.score;

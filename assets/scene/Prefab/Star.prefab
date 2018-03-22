@@ -131,8 +131,8 @@
       "x": 0,
       "y": 0
     },
-    "number": 5,
-    "sfIndex": 0
+    "number": 6,
+    "iconIndex": 0
   },
   {
     "__type__": "cc.PrefabInfo",

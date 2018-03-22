@@ -21,52 +21,59 @@ cc.Class({
             tooltip: '显示分数的Label框'
         },
 
-        Col: 0, //每一列的数字数量
-        Row: 0, //每一排的数字数量
-        Padding: 0, //边距
-        SpacingX: 0, //x轴方向上的数字之间的间距
-        SpacingY: 0, //Y轴方向上的数字之间的间距
+        col: 0, //每一列的数字数量
+        row: 0, //每一排的数字数量
+        padding: 0, //边距
+        spacingX: 0, //x轴方向上的数字之间的间距
+        spacingY: 0, //Y轴方向上的数字之间的间距
 
         _reward: 0,
-        _pSet: null, // 坐标矩阵集合
+        _CoorCollection: null, // 坐标矩阵集合
         _stars: null,
         _mask: null,
         _startPosition: null,
         _endPosition: null,
-        _node: null,
     },
 
     onLoad: function () {
-        this.buildCoordinateSet(); // 根据配置信息生成每个元素的坐标点集合
-        this.init();
+        this._buildCoordinateSet(); // 根据配置信息生成每个元素的坐标点集合
+        this._init();
         this._check();
     },
 
+    onDestroy() {
+        this._stars = null;
+        this._reward = 0;
+        this._CoorCollection = null;// 坐标矩阵集合
+        this._mask = null;
+        this._startPosition = null;
+        this._endPosition = null;
+    },
+
     // 初始化函数，生成star节点，添加监听事件
-    init: function () {
+    _init: function () {
         let node = this.node;
         this._mask = [];
         this._stars = [];
 
         // 坐标矩阵集合
-        let pSet = this._pSet;
-        for (let i = 0; i < this.Row; i++) {
-            let arr1 = [];
+        let pSet = this._CoorCollection;
+        for (let i = 0; i < this.row; i++) {
+            let stars = [];
             let marr = [];
-            for (let j = 0; j < this.Col; j++) {
+            for (let j = 0; j < this.col; j++) {
                 let ele = cc.instantiate(this.star);
-
                 //设置节点在父节点坐标系中的位置
                 ele.setPosition(pSet[i][j].x, pSet[i][j].y);
                 node.addChild(ele, 0, "ele");
-                this.addTouchEvents(ele);
+                this._addTouchEvents(ele);
                 let com = ele.getComponent(Star);
                 com.pos = cc.v2(i, j);
-                arr1.push(ele);
+                stars.push(ele);
                 marr.push(0);
             }
             this._mask.push(marr);
-            this._stars.push(arr1);
+            this._stars.push(stars);
         }
     },
 
@@ -79,136 +86,88 @@ cc.Class({
     },
 
     // 根据配置信息生成每个元素的坐标点对象
-    buildCoordinateSet: function () {
+    _buildCoordinateSet: function () {
         // 克隆预制
         let ele = cc.instantiate(this.star);
         // 获取预制节点大小
         let eleSize = ele.getContentSize();
-        let beginX = (this.node.width - (this.Row - 1) * (this.SpacingX + eleSize.width)) / 2;
-        let beginY = this.Padding + eleSize.height / 2;
+        let beginX = (this.node.width - (this.row - 1) * (this.spacingX + eleSize.width)) / 2;
+        let beginY = this.padding + eleSize.height / 2;
 
-        this._pSet = [];
-        for (let i = 0; i < this.Row; i++) {
+        this._CoorCollection = [];
+        for (let i = 0; i < this.row; i++) {
             let arr = [];
-            for (let j = 0; j < this.Col; j++) {
-                let position = cc.v2(beginX + i * (eleSize.width + this.SpacingX), beginY + j * (eleSize.height + this.SpacingY));
+            for (let j = 0; j < this.col; j++) {
+                let position = cc.v2(beginX + i * (eleSize.width + this.spacingX), beginY + j * (eleSize.height + this.spacingY));
                 // console.log(position.toString());
                 arr.push(position);
             }
-            this._pSet.push(arr);
+            this._CoorCollection.push(arr);
         }
-        // console.log('节点集合',this._pSet)
+        // console.log('节点集合',this._CoorCollection)
     },
 
-    // _onStartClick(event) {
-    //     // 代表当前节点被选中
-    //     this._node.select = true;
-    //     this_startPosition = this._node.getComponent(Star).pos;
-    //     console.log('节点的初始位置', this_startPosition);
-    // },
+    _onStartClick(event) {
+        // 代表当前节点被选中
+        let currentTarget = event.currentTarget;
+        currentTarget.isSelect = true;
+        this._startPosition = currentTarget.getComponent(Star).pos;
+        console.log('节点的初始位置', this._startPosition);
+    },
 
-    // _onMoveClick(event) {
-    //     if (this._node.select) {
-    //         // 获取当前触点的位置
-    //         let x = event.getLocationX();
-    //         let y = event.getLocationY();
-
-    //         this._node.setPosition(x, y);
-    //         console.log('当前节点移动到(' + x + "," + y + ')');
-    //     }
-    // },
-
-    // _onClick(event) {
-    //     // 将节点的选中状态置为false;
-    //     this._node.select = false;
-
-    //     let x = event.getLocationX();
-    //     let y = event.getLocationY();
-
-    //     //将节点的坐标转换为当前矩阵的坐标
-    //     this._endPosition = this.PositionToPos(x, y);
-    //     console.log('节点移动结束时的位置', this._endPosition);
-
-    //     // 如果节点移动的开始和结束位置在矩阵中相邻,并且节点的结束位置存在
-    //     if (this._isAround(this_startPosition, this._endPosition) && typeof (this._stars[this._endPosition.x][this._endPosition.y]) != 'undefined') {
-    //         console.log('isAround');
-    //         //交换两个数字位置
-    //         this._changeTwoPos(this_startPosition, this._endPosition);
-
-    //         this._check(); // check
-
-    //     } else {
-    //         this._node.setPosition(this._pSet[this_startPosition.x][this_startPosition.y]);
-    //     }
-    // },
-
-    // 添加触摸监听事件
-    addTouchEvents: function (node) {
-
-        // let p1 = null;
-        // let p2 = null;
-        // 传回节点位置,触摸开始时
-
-        this._node = node;
-        // UITools.startClick(node, this._onStartClick, this);
-        // this._node.on('touchstart', this._onStartClick, this);
-        let me = this;
-        node.on('touchstart', function (event) {
-            // 代表当前节点被选中
-            node.select = true;
-
-            me._startPosition = node.getComponent(Star).pos;
-            console.log('节点的初始位置', me._startPosition);
-        }, this);
-
-        // 触摸节点移动时
-        // this._node.on('touchmove', this._onMoveClick, this);
-        // UITools.moveClick(node, this._onMoveClick, this);
-        node.on('touchmove', function (event) {
-            if (node.select) {
-                console.log(event)
-                // 获取当前触点的位置
-                let x = event.getLocationX();
-                let y = event.getLocationY();
-
-                node.setPosition(x, y);
-                console.log('当前节点移动到(' + x + "," + y + ')');
-            }
-        }, this);
-
-        // 触摸结束时
-        // this._node.on('touchend', this._onClick, this)
-        // UITools.onClick(node, this._onClick, this);
-        node.on('touchend', function (event) {
-            // 将节点的选中状态置为false;
-            node.select = false;
-
+    _onMoveClick(event) {
+        let currentTarget = event.currentTarget;
+        if (currentTarget.isSelect) {
+            // 获取当前触点的位置
             let x = event.getLocationX();
             let y = event.getLocationY();
 
-            //将节点的坐标转换为当前矩阵的坐标
-            me._endPosition = me.PositionToPos(x, y);
-            console.log('节点移动结束时的位置', me._endPosition);
+            currentTarget.setPosition(x, y);
+            console.log('当前节点移动到(' + x + "," + y + ')');
+        }
+    },
 
-            // 如果节点移动的开始和结束位置在矩阵中相邻,并且节点的结束位置存在
-            if (me._isAround(me._startPosition, me._endPosition) && typeof (me._stars[me._endPosition.x][me._endPosition.y]) != 'undefined') {
-                console.log('isAround');
-                //交换两个数字位置
-                me._changeTwoPos(me._startPosition, me._endPosition);
+    _onClick(event) {
+        let currentTarget = event.currentTarget;
+        // 将节点的选中状态置为false;
+        currentTarget.isSelect = false;
 
-                me._check(); // check
-            } else {
-                node.setPosition(me._pSet[me._startPosition.x][me._startPosition.y]);
-            }
+        let x = event.getLocationX();
+        let y = event.getLocationY();
 
-        }, this);
+        //将节点的坐标转换为当前矩阵的坐标
+        this._endPosition = this._PositionToPos(x, y);
+        console.log('节点移动结束时的位置', this._endPosition);
+
+        // 如果节点移动的开始和结束位置在矩阵中相邻,并且节点的结束位置存在
+        if (this._isAround(this._startPosition, this._endPosition) && typeof (this._stars[this._endPosition.x][this._endPosition.y]) != 'undefined') {
+            console.log('isAround');
+            //交换两个数字位置
+            this._changeTwoPos(this._startPosition, this._endPosition);
+
+            this._check(); // check
+        } else {
+            currentTarget.setPosition(this._CoorCollection[this._startPosition.x][this._startPosition.y]);
+        }
+    },
+
+    // 添加触摸监听事件
+    _addTouchEvents: function (node) {
+        // 传回节点位置,触摸开始时
+        UITools.startClick(node, this._onStartClick, this);
+
+        // 触摸节点移动时
+        UITools.moveClick(node, this._onMoveClick, this);
+
+        // 触摸结束时
+        UITools.onClick(node, this._onClick, this);
     },
 
     // 屏幕坐标转矩阵坐标
-    PositionToPos: function (x, y) {
+    _PositionToPos: function (x, y) {
         let ele = cc.instantiate(this.star);
         let eleSize = ele.getContentSize();
-        let pos = cc.v2(Math.floor((x - this.Padding) / (eleSize.width + this.SpacingX)), Math.floor((y - this.Padding) / (eleSize.height + this.SpacingY)));
+        let pos = cc.v2(Math.floor((x - this.padding) / (eleSize.width + this.spacingX)), Math.floor((y - this.padding) / (eleSize.height + this.spacingY)));
         return pos;
     },
 
@@ -225,9 +184,9 @@ cc.Class({
     // 交换两个star的位置 包括自身存储的位置信息与stars数组内的实例交换
     _changeTwoPos: function (p1, p2) {
         this._stars[p1.x][p1.y].getComponent(Star).pos = p2;
-        this._stars[p1.x][p1.y].setPosition(this._pSet[p2.x][p2.y]);
+        this._stars[p1.x][p1.y].setPosition(this._CoorCollection[p2.x][p2.y]);
         this._stars[p2.x][p2.y].getComponent(Star).pos = p1;
-        this._stars[p2.x][p2.y].setPosition(this._pSet[p1.x][p1.y]);
+        this._stars[p2.x][p2.y].setPosition(this._CoorCollection[p1.x][p1.y]);
         let t = this._stars[p1.x][p1.y];
         this._stars[p1.x][p1.y] = this._stars[p2.x][p2.y];
         this._stars[p2.x][p2.y] = t;
@@ -242,9 +201,9 @@ cc.Class({
 
     _checkConnected: function () {
         // 纵向需要删除的数字数
-        let count1 = this.verticalCheckConnected();
+        let count1 = this._verticalCheckConnected();
         // 横向需要删除的数字数
-        let count2 = this.horizontalCheckConnected();
+        let count2 = this._horizontalCheckConnected();
 
         // 奖励分数
         this._reward = this._calScore(count1 + count2);
@@ -259,7 +218,7 @@ cc.Class({
     },
 
     // 纵向检查star的相连形况
-    verticalCheckConnected: function () {
+    _verticalCheckConnected: function () {
         let index1, index2;
         let start, end;
         let count = 0;
@@ -269,14 +228,14 @@ cc.Class({
             if (typeof (this._stars[i][0]) == 'undefined') {
                 continue;
             }
-            index1 = this._stars[i][0].getComponent('Star').sfIndex;
+            index1 = this._stars[i][0].getComponent(Star).iconIndex;
             start = 0;
             for (let j = 1; j <= this._stars[i].length; j++) {
                 // 当到达边界值时
                 if (j == this._stars[i].length) {
                     index2 = -1;
                 } else {
-                    index2 = this._stars[i][j].getComponent('Star').sfIndex;
+                    index2 = this._stars[i][j].getComponent(Star).iconIndex;
                 }
 
                 if (index1 != index2) {
@@ -290,7 +249,7 @@ cc.Class({
                     }
                     start = end;
                     if (start != this._stars[i].length) {
-                        index1 = this._stars[i][start].getComponent('Star').sfIndex;
+                        index1 = this._stars[i][start].getComponent(Star).iconIndex;
                     }
 
                 }
@@ -300,21 +259,21 @@ cc.Class({
     },
 
     // 横向检查star的相连情况
-    horizontalCheckConnected: function () {
+    _horizontalCheckConnected: function () {
         let index1, index2;
         let start, end;
         let count = 0;
         // 记录需删除的star数
-        for (let j = 0; j < this.Col; j++) {
-            for (let i = 0; i < this.Row;) {
+        for (let j = 0; j < this.col; j++) {
+            for (let i = 0; i < this.row;) {
                 if (typeof (this._stars[i][j]) == 'undefined') {
                     i++;
                     continue;
                 }
-                index1 = this._stars[i][j].getComponent('Star').sfIndex;
+                index1 = this._stars[i][j].getComponent(Star).iconIndex;
                 let begin = i;
                 end = begin;
-                while (end < this.Row) {
+                while (end < this.row) {
                     if (typeof (this._stars[end][j]) == 'undefined') {
                         if (end - begin >= 3) {
                             while (begin != end) {
@@ -327,7 +286,7 @@ cc.Class({
                         }
                         break;
                     }
-                    index2 = this._stars[end][j].getComponent('Star').sfIndex;
+                    index2 = this._stars[end][j].getComponent(Star).iconIndex;
                     if (index1 != index2) {
                         if (end - begin >= 3) {
                             while (begin != end) {
@@ -342,7 +301,7 @@ cc.Class({
                     }
                     end++;
                 }
-                if (end == this.Row && end - begin >= 3) {
+                if (end == this.row && end - begin >= 3) {
                     while (begin != end) {
                         if (this._mask[begin][j] != 1) {
                             this._mask[begin][j] = 1;
@@ -352,7 +311,6 @@ cc.Class({
                     }
                 }
                 i = end;
-
             }
         }
         return count;
@@ -360,12 +318,12 @@ cc.Class({
 
     // 根据mask的状态信息删除相连的star
     _deleteConnected: function () {
-        for (let i = 0; i < this.Row; i++) {
+        for (let i = 0; i < this.row; i++) {
             let count = 0;
             let start = 0,
                 end;
             let onoff = true;
-            for (let j = this.Col - 1; j >= 0; j--) {
+            for (let j = this.col - 1; j >= 0; j--) {
                 if (this._mask[i][j] == 1) {
                     if (onoff) {
                         start = j;
@@ -379,7 +337,6 @@ cc.Class({
                     end = j;
                     // 删除star实例
                     this._stars[i].splice(end, start - end + 1);
-
                     onoff = true;
                 }
                 this._mask[i][j] = 0;
@@ -392,14 +349,44 @@ cc.Class({
 
     _gameOver() {
         let starNumber = 0;
-        for (let i = 0; i < this._stars.length; i++) {
+        let j = this._stars.length;
+        for (let i = 0; i < j; i++) {
             starNumber += this._stars[i].length
         }
         console.log('删除后的星星数', starNumber)
-        if (starNumber <= 100) {
+        let overNumber = this._overNumber();
+        if (starNumber <= overNumber) {
             //发送事件创建结束预制
             EventBus.emit(Event.event.xiaoxiaoleOver);
             // 移除这个界面的所以监听事件
+        }
+    },
+
+    _overNumber() {
+        let currentNumber = cc.sys.localStorage.getItem(Event.localStorage.number);
+        if(currentNumber == 2 || currentNumber == 1) {
+            return 25;
+        }
+        if(currentNumber == 3) {
+            return 50;
+        }
+        if(currentNumber == 4) {
+            return 70;
+        }
+        if(currentNumber == 5) {
+            return 80;
+        }
+        if(currentNumber == 6) {
+            return 90;
+        }
+        if(currentNumber == 7) {
+            return 105;
+        }
+        if(currentNumber == 8) {
+            return 135;
+        }
+        if(currentNumber == 9) {
+            return 145;
         }
     },
 
@@ -410,18 +397,18 @@ cc.Class({
 
         }, this);
 
-        let starsLength = this._stars.length;
-        
-        for (let i = 0; i < this._stars.length; i++) {
-            for (let j = 0; j < this._stars[i].length; j++) {
+        let m = this._stars.length;
+        for (let i = 0; i < m; i++) {
+            let n = this._stars[i].length;
+            for (let j = 0; j < n; j++) {
                 let act;
-                if (i == this._stars.length - 1 && j == this._stars[i].length - 1) {
-                    act = cc.sequence(cc.moveTo(1, this._pSet[i][j]), finished);
+                if (i == m - 1 && j == n - 1) {
+                    act = cc.sequence(cc.moveTo(1, this._CoorCollection[i][j]), finished);
                 } else {
-                    act = cc.moveTo(1, this._pSet[i][j]);
+                    act = cc.moveTo(1, this._CoorCollection[i][j]);
                 }
                 this._stars[i][j].runAction(act);
-                let com = this._stars[i][j].getComponent('Star');
+                let com = this._stars[i][j].getComponent(Star);
                 com.pos = cc.v2(i, j);
             }
         }
@@ -433,8 +420,3 @@ cc.Class({
         scoreNode.setReward(this._reward);
     },
 });
-
-
-//释放内存,销毁stars
-//提前读取数组长度
-//驼峰,第一个字母小写

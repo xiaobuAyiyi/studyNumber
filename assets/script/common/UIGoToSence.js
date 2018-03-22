@@ -24,10 +24,6 @@ cc.Class({
         UITools.onClick(this.target, this._onTouchUp.bind(this), this.node);
     },
 
-    onDestroy() {
-        // UITools.offClick(this.target, this._onTouchUp.bind(this));
-    },
-
     _onTouchUp: function (event) {
         cc.director.loadScene(this.senceName);
     },

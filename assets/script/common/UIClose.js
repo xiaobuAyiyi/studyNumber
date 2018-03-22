@@ -24,7 +24,7 @@ cc.Class({
     },
 
     onDestroy() {
-        // UITools.offClick(this.closeButton, this._onClose);
+        UITools.offClick(this.closeButton, this._onClose);
     },
 
     //关闭按钮回调

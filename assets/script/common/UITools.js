@@ -77,13 +77,13 @@ UITools.offStartClick = function (target, callback, domain) {
 //按住目标移动
 UITools.moveClick = function (target, callback, domain) {
     if (target && target instanceof cc.Node) {
-        target.on(cc.Node.EventType.TOUCH_Move, callback, domain);
+        target.on(cc.Node.EventType.TOUCH_MOVE, callback, domain);
     }
 }
 
 UITools.offMoveClick = function (target, callback, domain) {
     if (target && target instanceof cc.Node) {
-        target.off(cc.Node.EventType.TOUCH_Move, callback, domain);
+        target.off(cc.Node.EventType.TOUCH_MOVE, callback, domain);
     }
 }
 

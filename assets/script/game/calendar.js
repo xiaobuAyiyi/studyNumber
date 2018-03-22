@@ -1,6 +1,5 @@
 const UITools = require('UITools');
-const NUMBER = 'number';
-
+const Event = require('event');
 cc.Class({
     extends: cc.Component,
 
@@ -34,14 +33,14 @@ cc.Class({
     },
 
     _init() {
-        let math = cc.sys.localStorage.getItem(NUMBER);
+        let math = cc.sys.localStorage.getItem(Event.localStorage.number);
         if(math) {
             this.number.string = math;
         }
         else {
             this.number.string = 1;
         }
-        console.log(this.number.string)
+        // console.log('当前数字', this.number.string);
     },
 
     //注册监听事件
@@ -66,7 +65,7 @@ cc.Class({
         if(this.number.string != 1) {
             this.number.string--;
         }
-        cc.sys.localStorage.setItem(NUMBER, this.number.string);//本地存储
+        cc.sys.localStorage.setItem(Event.localStorage.number, this.number.string);//本地存储
     },
 
     //右按钮的回调
@@ -74,6 +73,6 @@ cc.Class({
         if(this.number.string != 9) {
             this.number.string++;
         }
-        cc.sys.localStorage.setItem(NUMBER, this.number.string);//本地存储
+        cc.sys.localStorage.setItem(Event.localStorage.number, this.number.string);//本地存储
     },
 });

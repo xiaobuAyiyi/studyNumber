@@ -1,3 +1,5 @@
+const Event = require('event');
+
 cc.Class({
     extends: cc.Component,
 
@@ -13,23 +15,26 @@ cc.Class({
             default:new cc.Vec2
         },
 
-        number:0,
-        sfIndex:0,
+        _number: 2,
+        iconIndex:0,//图片下标
     },
     
     // use this for initialization
     onLoad: function () {
-        this.initSpriteFrame();
+        let currentNumber = cc.sys.localStorage.getItem(Event.localStorage.number);
+        if(currentNumber && currentNumber != 1) {
+            this._number = currentNumber;
+        }
+        this._initSpriteFrame();
     },
 
-    initSpriteFrame:function(){
+    _initSpriteFrame:function(){
         function getRandomInt(min,max){
-            var ratio = Math.random();
+            let ratio = Math.random();
             return min + Math.floor((max - min) * ratio);
         }
-        this.sfIndex = getRandomInt(0,this.number);
-        // window.console.log(this.index);
-        var sprite = this.getComponent(cc.Sprite);
-        sprite.spriteFrame = this.icons[this.sfIndex];
+        this.iconIndex = getRandomInt(0, this._number);
+        let sprite = this.getComponent(cc.Sprite);
+        sprite.spriteFrame = this.icons[this.iconIndex];
     },
 });
