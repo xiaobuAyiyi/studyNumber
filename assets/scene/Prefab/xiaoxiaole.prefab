@@ -198,8 +198,7 @@
     "scoreLabel": {
       "__id__": 3
     },
-    "score": 0,
-    "_reward": 0
+    "score": 0
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -579,7 +578,7 @@
     "star": {
       "__uuid__": "b9a1579f-4845-4643-a8a8-ec9bce49105d"
     },
-    "Score": {
+    "score": {
       "__id__": 2
     },
     "Col": 10,
@@ -591,20 +590,23 @@
     "_pSet": null,
     "_stars": null,
     "_mask": null,
-    "_p1": null,
-    "_p2": null,
+    "_startPosition": null,
+    "_endPosition": null,
     "_node": null
   },
   {
-    "__type__": "c559cQM2F9DPry6+qRRSMzN",
+    "__type__": "557eaCUvaBA4J2Ot4RPOGXu",
     "_name": "",
     "_objFlags": 0,
     "node": {
       "__id__": 1
     },
     "_enabled": true,
-    "close": {
+    "close_node": {
       "__id__": 12
+    },
+    "destroy_node": {
+      "__id__": 1
     }
   },
   {

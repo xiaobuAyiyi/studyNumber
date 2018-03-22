@@ -43,7 +43,7 @@ UITools.setEnabled = function (target, enable) {
  */
 UITools.onClick = function (target, callback, domain) {
     if (target && target instanceof cc.Node) {
-        target.on('touchmove', callback, domain);
+        target.on(cc.Node.EventType.TOUCH_END, callback, domain);
     }
 }
 
@@ -55,7 +55,7 @@ UITools.onClick = function (target, callback, domain) {
  */
 UITools.offClick = function (target, callback, domain) {
     if (target && target instanceof cc.Node) {
-        target.off('touchmove', callback, domain);
+        target.off(cc.Node.EventType.TOUCH_END, callback, domain);
     }
 }
 
@@ -86,7 +86,6 @@ UITools.offMoveClick = function (target, callback, domain) {
         target.off(cc.Node.EventType.TOUCH_Move, callback, domain);
     }
 }
-
 
 // 鼠标按下取消事件
 UITools.cancelClick = function (target, callback, domain) {

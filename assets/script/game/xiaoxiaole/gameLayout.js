@@ -14,7 +14,7 @@ cc.Class({
             diaplayName: '数字预制',
         },
 
-        Score: {
+        score: {
             default: null,
             type: cc.Node,
             diaplayName: '分数框',
@@ -198,7 +198,7 @@ cc.Class({
 
                 me._check(); // check
             } else {
-                node.setPosition(me._pSet[me._startPosition.x][me_startPosition.y]);
+                node.setPosition(me._pSet[me._startPosition.x][me._startPosition.y]);
             }
 
         }, this);
@@ -429,7 +429,8 @@ cc.Class({
 
     _updateScore: function () {
         // 更新分数显示
-        Score.setReward(this._reward);
+        let scoreNode = this.score.getComponent(Score);
+        scoreNode.setReward(this._reward);
     },
 });
 
