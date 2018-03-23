@@ -36,7 +36,19 @@ EventDispatcher.prototype.removeEventListener = function (event, listener) {
         for (var d = 0; d < len; d++)
             if (c[d].listener === listener) {
                 c.splice(d, 1);
-                break
+                break;
+            }
+    }
+};
+
+EventDispatcher.prototype.removeOnceEventListener = function (event, listener) {
+    var c = this.onceListenersByEvent[event];
+    if (null != c) {
+        var len = c.length;
+        for (var d = 0; d < len; d++)
+            if (c[d].listener === listener) {
+                c.splice(d, 1);
+                break;
             }
     }
 };
@@ -83,9 +95,16 @@ EventDispatcher.prototype.on = function (event, listener, listenerContext) {
     this.addEventListener(event, listener, listenerContext);
 }
 
+EventDispatcher.prototype.onceOn = function (event, listener, listenerContext) {
+    this.addOnceEventListener(event, listener, listenerContext);
+}
 
 EventDispatcher.prototype.off = function (event, listener) {
     this.removeEventListener(event, listener);
+}
+
+EventDispatcher.prototype.onceOff = function (event, listener) {
+    this.removeOnceEventListener(event, listener);
 }
 
 //监听事件所有监听事件

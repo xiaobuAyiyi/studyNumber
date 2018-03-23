@@ -1,4 +1,5 @@
 const UITools = require('UITools');
+const Event = require('event');
 
 cc.Class({
     extends: cc.Component,
@@ -27,7 +28,8 @@ cc.Class({
         this._onEvent();
     },
 
-    onDistroy() {
+    onDestroy() {
+        // cc.sys.localStorage.setItem(Event.localStorage.gameOverIsCreate, 0);//本地存储
         this._offEvent();
     },
 
@@ -54,21 +56,24 @@ cc.Class({
 
         UITools.offEnterClick(this.backGame, this._zoomBigAction);
         UITools.offLeaveClick(this.backGame, this._zoomSmallAction);
-        UITools.onClick(this.backGame, this._onBackGame);
+        UITools.offClick(this.backGame, this._onBackGame);
 
         UITools.offEnterClick(this.nextGame, this._zoomBigAction);
         UITools.offLeaveClick(this.nextGame, this._zoomSmallAction);
-        UITools.onClick(this.nextGame, this._onNextGame);
+        UITools.offClick(this.nextGame, this._onNextGame);
     },
 
     //返回大厅回调
     _onBackHall() {
+        console.log('销毁')
+        this.node.destroy()
         //销毁当前的节点,同时销毁当前游戏节点,跳转到大厅界面
     },
 
     //返回当场游戏回调
     _onBackGame() {
         //销毁当前节点,返回当前所在游戏
+        this.node.active = false;
     },
 
     //跳转到下一个游戏回调
@@ -79,7 +84,6 @@ cc.Class({
     //触碰按钮时的回调,按钮放大动画
     _zoomBigAction(event) {
         let evet = event;
-        console.log('当前监听节点',evet)
         if(evet.currentTarget == this.backHall) {
             this.backHall.scaleX = 1.1;
             this.backHall.scaleY = 1.1;

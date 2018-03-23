@@ -33,6 +33,7 @@ cc.Class({
         _mask: null,
         _startPosition: null,
         _endPosition: null,
+        _gameOverNumber: -1,
     },
 
     onLoad: function () {
@@ -74,14 +75,20 @@ cc.Class({
             }
             this._mask.push(marr);
             this._stars.push(stars);
+            this._gameOverNumber = this._overNumber();
         }
     },
 
-    _check: function () {
+    _check: function (falg) {
         //如果有需要删除的数字
-        if (this._checkConnected()) {
-            // 删除需要删除的数字
+        if(falg) {
             this._delAndDrop();
+        }
+        else {
+            if (this._checkConnected()) {
+                // 删除需要删除的数字
+                this._delAndDrop();
+            }
         }
     },
 
@@ -144,8 +151,15 @@ cc.Class({
             console.log('isAround');
             //交换两个数字位置
             this._changeTwoPos(this._startPosition, this._endPosition);
-
-            this._check(); // check
+            // 判断可消除的数字数量是否满足要求,不满足则再次交换回去
+            if(this._checkConnected()) {
+                console.log('删除相连的数字')
+                this._check(true); // check
+            }
+            else {
+                console.log('不满足消除条件,退回原位置')
+                this._changeTwoPos(this._startPosition, this._endPosition);
+            }
         } else {
             currentTarget.setPosition(this._CoorCollection[this._startPosition.x][this._startPosition.y]);
         }
@@ -174,7 +188,7 @@ cc.Class({
     // 判断矩阵坐标p2是否与p1相邻
     _isAround: function (p1, p2) {
         let dis = Math.abs((p2.x - p1.x) + (p2.y - p1.y));
-        console.log(dis);
+        console.log('节点移动的位置', dis);
         if (dis == 1) {
             return true;
         }
@@ -207,7 +221,7 @@ cc.Class({
 
         // 奖励分数
         this._reward = this._calScore(count1 + count2);
-        console.log(this._reward + "rew");
+        console.log('我是可消除的数量', count1 + count2);
 
         return ((count1 + count2) > 0) ? true : false;
     },
@@ -354,8 +368,8 @@ cc.Class({
             starNumber += this._stars[i].length
         }
         console.log('删除后的星星数', starNumber)
-        let overNumber = this._overNumber();
-        if (starNumber <= overNumber) {
+        console.log('最终停止游戏的数量', this._gameOverNumber);
+        if (starNumber <= this._gameOverNumber) {
             //发送事件创建结束预制
             EventBus.emit(Event.event.xiaoxiaoleOver);
             // 移除这个界面的所以监听事件
@@ -364,29 +378,21 @@ cc.Class({
 
     _overNumber() {
         let currentNumber = cc.sys.localStorage.getItem(Event.localStorage.number);
-        if(currentNumber == 2 || currentNumber == 1) {
+        console.log('我是本地存储', cc.sys.localStorage);
+        if(!currentNumber) {
             return 25;
         }
-        if(currentNumber == 3) {
-            return 50;
-        }
-        if(currentNumber == 4) {
-            return 70;
-        }
-        if(currentNumber == 5) {
-            return 80;
-        }
-        if(currentNumber == 6) {
-            return 90;
-        }
-        if(currentNumber == 7) {
-            return 105;
-        }
-        if(currentNumber == 8) {
-            return 135;
-        }
-        if(currentNumber == 9) {
-            return 145;
+        currentNumber = parseInt(currentNumber);
+        switch(currentNumber){
+            case 1: return 25;
+            case 2: return 25;
+            case 3: return 50;
+            case 4: return 70;
+            case 5: return 80;
+            case 6: return 90;
+            case 7: return 105;
+            case 8: return 135;
+            case 9: return 145;
         }
     },
 

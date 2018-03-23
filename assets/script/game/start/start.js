@@ -1,4 +1,5 @@
 const UITools = require('UITools');
+const Event = require('event');
 
 cc.Class({
     extends: cc.Component,
@@ -58,7 +59,7 @@ cc.Class({
 
     _playBGMusic() {
         //将滑动器设置到上次离开时的位置
-        let progress = cc.sys.localStorage.getItem('sliderProgress');
+        let progress = cc.sys.localStorage.getItem(Event.localStorage.sliderProgress);
         if(progress) {
             //滑动器当前进度值，该数值的区间是 0-1 之间
             this.slider.progress = progress;
@@ -88,7 +89,7 @@ cc.Class({
 
     //播放声音的回调
     _onSliderHEvent (sender, eventType) {
-        cc.sys.localStorage.setItem('sliderProgress', this.slider.progress);//本地存储
+        cc.sys.localStorage.setItem(Event.localStorage.sliderProgress, this.slider.progress);//本地存储
         this._updateMusicVolume(sender.progress);
     },
 
