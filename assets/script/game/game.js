@@ -1,6 +1,8 @@
 const UITools = require('UITools');
 const gameLayout = require('gameLayout');
-
+const Event = require('event');
+const EventBus = require('EventBus');
+const smartFox = require('smartFox');
 cc.Class({
     extends: cc.Component,
 
@@ -15,7 +17,7 @@ cc.Class({
             default: null,
             type: cc.Node,
             displayName: '数字消消消按钮',
-            toolip: '点击加载数字消消消预制',
+            toolip: '点击加载数字消消消',
         },
     },
 
@@ -35,9 +37,8 @@ cc.Class({
         UITools.offClick(this.numberButton, this._onNumberButton, this);
     },
 
-    //创建数字消消消预制
     _onNumberButton() {
-        let game_number = cc.instantiate(this.numberPrefab);
-        cc.find("Canvas").addChild(game_number);
+        cc.director.loadScene('game');
+        smartFox.setGameType('xxl');
     },
 });

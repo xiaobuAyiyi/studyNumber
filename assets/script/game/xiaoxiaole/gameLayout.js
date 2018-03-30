@@ -18,7 +18,13 @@ cc.Class({
             default: null,
             type: cc.Node,
             diaplayName: '分数框',
-            tooltip: '显示分数的Label框'
+            tooltip: '显示分数的Label框',
+        },
+
+        numbers: {
+            default: null,
+            type: cc.Node,
+            displayName: '数字放置节点',
         },
 
         col: 0, //每一列的数字数量
@@ -53,7 +59,7 @@ cc.Class({
 
     // 初始化函数，生成star节点，添加监听事件
     _init: function () {
-        let node = this.node;
+        let numbers = this.numbers;
         this._mask = [];
         this._stars = [];
 
@@ -66,7 +72,7 @@ cc.Class({
                 let ele = cc.instantiate(this.star);
                 //设置节点在父节点坐标系中的位置
                 ele.setPosition(pSet[i][j].x, pSet[i][j].y);
-                node.addChild(ele, 0, "ele");
+                numbers.addChild(ele, 0, "ele");
                 this._addTouchEvents(ele);
                 let com = ele.getComponent(Star);
                 com.pos = cc.v2(i, j);
@@ -372,13 +378,11 @@ cc.Class({
         if (starNumber <= this._gameOverNumber) {
             //发送事件创建结束预制
             EventBus.emit(Event.event.xiaoxiaoleOver);
-            // 移除这个界面的所以监听事件
         }
     },
 
     _overNumber() {
         let currentNumber = cc.sys.localStorage.getItem(Event.localStorage.number);
-        console.log('我是本地存储', cc.sys.localStorage);
         if(!currentNumber) {
             return 25;
         }

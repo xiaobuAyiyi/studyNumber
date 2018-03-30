@@ -37,7 +37,7 @@ cc.Class({
     _onEvent() {
         UITools.enterClick(this.backHall, this._zoomBigAction, this);
         UITools.leaveClick(this.backHall, this._zoomSmallAction, this);
-        UITools.onClick(this.backHall, this._onBackHall, this);
+        // UITools.onClick(this.backHall, this._onBackHall, this);
         
         UITools.enterClick(this.backGame, this._zoomBigAction, this);
         UITools.leaveClick(this.backGame, this._zoomSmallAction, this);
@@ -65,8 +65,8 @@ cc.Class({
 
     //返回大厅回调
     _onBackHall() {
-        console.log('销毁')
-        this.node.destroy()
+        console.log('销毁');
+        cc.director.loadScene('hall');
         //销毁当前的节点,同时销毁当前游戏节点,跳转到大厅界面
     },
 

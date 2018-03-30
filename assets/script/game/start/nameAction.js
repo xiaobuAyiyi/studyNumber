@@ -17,8 +17,8 @@ cc.Class({
 
     //游戏名称节点放大缩小的动画
     _nameNodeAction() {
-        let scaleTo = cc.scaleTo(.8, .9);
-        let reverse = cc.scaleTo(.8, 1);
+        let scaleTo = cc.scaleTo(0.5, 0.9);
+        let reverse = cc.scaleTo(0.5, 1);
         let seq = cc.sequence(scaleTo, reverse);//顺序执行将节点放大缩小的动作
         let repeat = cc.repeatForever(seq);//永远重复执行动作
         this.nameNode.runAction(repeat);

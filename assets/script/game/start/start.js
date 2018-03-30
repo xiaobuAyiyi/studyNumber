@@ -36,6 +36,7 @@ cc.Class({
             default: null,
             type: cc.Slider,
             displayName: '滑动器',
+            tooltip: '滑动设置音乐音量',
         },
         
         music: cc.AudioSource,
@@ -55,6 +56,8 @@ cc.Class({
         //销毁监听事件
         this._offEvent();
         this._volume = 0;
+        // 关闭音乐
+        cc.audioEngine.stop();
     },
 
     _playBGMusic() {
@@ -97,7 +100,6 @@ cc.Class({
     _updateMusicVolume (progress) {
         this.music.volume = progress;//调整音量大小
         this._volume = this.music.volume;//将音量设为全局变量
-        // console.log('this.music.volume: ', this.music);
     },
 
     //quit按钮的回调,关闭游戏

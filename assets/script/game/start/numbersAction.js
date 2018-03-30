@@ -5,6 +5,7 @@ cc.Class({
         numbers: {
             default: [],
             type: cc.Node,
+            tooltip: '数字，此属性是数组'
         },
         
         _timeID: -1,
