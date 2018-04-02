@@ -1,5 +1,6 @@
 const UITools = require('UITools');
 const Event = require('event');
+
 cc.Class({
     extends: cc.Component,
 
@@ -61,7 +62,6 @@ cc.Class({
 
     //左按钮的回调
     _onLeftButton() {
-        console.log(cc.sys.localStorage)
         if(this.number.string != 1) {
             this.number.string--;
         }

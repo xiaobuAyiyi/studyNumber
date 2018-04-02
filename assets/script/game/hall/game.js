@@ -1,8 +1,8 @@
 const UITools = require('UITools');
 const gameLayout = require('gameLayout');
 const Event = require('event');
-const EventBus = require('EventBus');
 const smartFox = require('smartFox');
+
 cc.Class({
     extends: cc.Component,
 

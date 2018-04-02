@@ -13,7 +13,7 @@ cc.Class({
     },
 
     onLoad() {
-        EventBus.on(Event.event.xiaoxiaoleOver, this._oneEliminateOver, this);
+        // EventBus.on(Event.event.xiaoxiaoleOver, this._oneEliminateOver, this);
     },
 
     onDestroy() {

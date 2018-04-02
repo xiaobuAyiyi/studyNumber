@@ -1,5 +1,6 @@
 const UITools = require('UITools');
 const Event = require('event');
+const EventBus = require('EventBus');
 
 cc.Class({
     extends: cc.Component,
@@ -22,6 +23,12 @@ cc.Class({
             type: cc.Node,
             displayName: '下一个游戏',
         },
+
+        gameOver: {
+            default: null,
+            type: cc.Node,
+            displayName: '游戏结束界面',
+        }
     },
 
     onLoad() {
@@ -29,7 +36,6 @@ cc.Class({
     },
 
     onDestroy() {
-        // cc.sys.localStorage.setItem(Event.localStorage.gameOverIsCreate, 0);//本地存储
         this._offEvent();
     },
 
@@ -46,13 +52,15 @@ cc.Class({
         UITools.enterClick(this.nextGame, this._zoomBigAction, this);
         UITools.leaveClick(this.nextGame, this._zoomSmallAction, this);
         UITools.onClick(this.nextGame, this._onNextGame, this);
+
+        EventBus.on(Event.event.xiaoxiaoleOver, this._oneEliminateOver.bind(this), this);
     },
 
     //注销监听事件
     _offEvent() {
         UITools.offEnterClick(this.backHall, this._zoomBigAction);
         UITools.offLeaveClick(this.backHall, this._zoomSmallAction);
-        UITools.offClick(this.backHall, this._onBackHall);
+        // UITools.offClick(this.backHall, this._onBackHall);
 
         UITools.offEnterClick(this.backGame, this._zoomBigAction);
         UITools.offLeaveClick(this.backGame, this._zoomSmallAction);
@@ -61,19 +69,21 @@ cc.Class({
         UITools.offEnterClick(this.nextGame, this._zoomBigAction);
         UITools.offLeaveClick(this.nextGame, this._zoomSmallAction);
         UITools.offClick(this.nextGame, this._onNextGame);
+
+        EventBus.off(Event.event.xiaoxiaoleOver, this._oneEliminateOver.bind(this));
     },
 
     //返回大厅回调
     _onBackHall() {
-        console.log('销毁');
         cc.director.loadScene('hall');
         //销毁当前的节点,同时销毁当前游戏节点,跳转到大厅界面
     },
 
     //返回当场游戏回调
     _onBackGame() {
-        //销毁当前节点,返回当前所在游戏
+        //销毁当前节点,返回当前所在游戏,发送事件使得游戏节点重新运行以生成新的游戏
         this.node.active = false;
+        EventBus.emit(Event.event.xiaoxiaoleBegin);
     },
 
     //跳转到下一个游戏回调
@@ -120,4 +130,10 @@ cc.Class({
             return;
         }
     },
+
+    _oneEliminateOver() {
+        if(this.gameOver) {
+            this.gameOver.active = true;
+        }
+    }
 });

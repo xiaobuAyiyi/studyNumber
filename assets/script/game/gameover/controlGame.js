@@ -1,5 +1,4 @@
 const Event = require('event');
-const EventBus = require('EventBus');
 const smartFox = require('smartFox');
 
 cc.Class({
@@ -21,15 +20,12 @@ cc.Class({
     },
 
     onLoad() {
-        EventBus.on(Event.event.xiaoxiaoleOver, this._oneEliminateOver, this);
-        console.log('游戏结束界面', this.gameOver)
         this._init();
         this._gameActive();
     },
 
     _init() {
         this.xiaoxiaole.active = false;
-        this.gameOver.active = false;
     },
 
     _gameActive() {
@@ -37,12 +33,9 @@ cc.Class({
             return;
         }
         if(smartFox.gameType === 'xxl') {
-            this.xiaoxiaole.active = true;
+            if(this.xiaoxiaole) {
+                this.xiaoxiaole.active = true;
+            }
         }
     },
-
-    _oneEliminateOver() {
-        console.log(this.gameOver)
-        this.gameOver.active = true;
-    }
 });
