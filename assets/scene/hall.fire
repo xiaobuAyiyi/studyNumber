@@ -814,11 +814,11 @@
       "__id__": 3
     },
     "_enabled": true,
-    "numberPrefab": {
-      "__uuid__": "6b757ac6-f0c9-48fb-b571-0d468ffd16cf"
-    },
     "numberButton": {
       "__id__": 20
+    },
+    "btn_ssg": {
+      "__id__": 37
     }
   },
   {
@@ -1909,7 +1909,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "f4a39351-f517-44eb-ac25-2fa2bfd265a1"
+      "__uuid__": "2d0ab1d3-fb3b-4f45-9f98-8d90639c3f51"
     },
     "_type": 0,
     "_sizeMode": 0,

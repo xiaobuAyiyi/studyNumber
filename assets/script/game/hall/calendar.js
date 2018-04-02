@@ -9,18 +9,21 @@ cc.Class({
             default: null,
             type: cc.Node,
             diaplayName: '左按钮',
+            tooltip: '点击一次数字减少1',
         },
 
         rigthtButton: {
             default: null,
             type: cc.Node,
             diaplayName: '右按钮',
+            tooltip: '点击一次数字增加1',
         },
 
         number: {
             default: null,
             type: cc.Label,
             diaplayName: '数字显示框',
+            tooltip: '显示当前数字',
         },
     },
 
@@ -57,7 +60,6 @@ cc.Class({
     _offEvent() {
         UITools.offClick(this.leftButton, this._onLeftButton);
         UITools.offClick(this.rigthtButton, this._onRigthtButton);
-        
     },
 
     //左按钮的回调

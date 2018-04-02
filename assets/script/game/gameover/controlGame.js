@@ -1,5 +1,6 @@
 const Event = require('event');
 const smartFox = require('smartFox');
+const EventBus = require('EventBus');
 
 cc.Class({
     extends: cc.Component,
@@ -10,6 +11,12 @@ cc.Class({
             type: cc.Node,
             displayName: '消消乐',
             tooltip: '消消乐预制装载节点',
+        },
+
+        UI_ssg: {
+            default: null,
+            type: cc.Node,
+            displayName: '数水果',
         },
 
         gameOver: {
@@ -26,6 +33,7 @@ cc.Class({
 
     _init() {
         this.xiaoxiaole.active = false;
+        this.UI_ssg.active = false;
     },
 
     _gameActive() {
@@ -36,6 +44,13 @@ cc.Class({
             if(this.xiaoxiaole) {
                 this.xiaoxiaole.active = true;
             }
+            return;
+        }
+        if(smartFox.gameType === 'ssg') {
+            if(this.UI_ssg) {
+                this.UI_ssg.active = true;
+            }
+            return;
         }
     },
 });

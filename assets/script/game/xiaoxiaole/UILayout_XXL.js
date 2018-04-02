@@ -43,18 +43,44 @@ cc.Class({
     },
 
     onLoad: function () {
+        EventBus.on(Event.event.xiaoxiaoleBegin, this._begin.bind(this), this);
         this._buildCoordinateSet(); // 根据配置信息生成每个元素的坐标点集合
         this._init();
         this._check();
     },
 
     onDestroy() {
+        this._clearData();
+        EventBus.off(Event.event.xiaoxiaoleBegin, this._begin.bind(this));
+    },
+
+    _clearData() {
         this._stars = null;
         this._reward = 0;
-        this._CoorCollection = null;// 坐标矩阵集合
+        this._CoorCollection = null; // 坐标矩阵集合
         this._mask = null;
         this._startPosition = null;
         this._endPosition = null;
+        this._gameOverNumber = -1;
+    },
+
+    _begin() {
+        if(this._stars) {
+            if(this._mask) {
+                for(let i = 0; i < this.row; i++) {
+                    for(let j = 0; j < this.col; j++) {
+                        if(this._stars[i][j] != undefined) {
+                            this._mask[i][j] = 1;
+                        }
+                    }
+                }
+            }
+        }
+        this._deleteConnected();
+        this._clearData();
+        this._buildCoordinateSet(); // 根据配置信息生成每个元素的坐标点集合
+        this._init();
+        this._check();
     },
 
     // 初始化函数，生成star节点，添加监听事件
@@ -81,16 +107,15 @@ cc.Class({
             }
             this._mask.push(marr);
             this._stars.push(stars);
-            this._gameOverNumber = this._overNumber();
         }
+        this._gameOverNumber = this._overNumber();
     },
 
     _check: function (falg) {
         //如果有需要删除的数字
-        if(falg) {
+        if (falg) {
             this._delAndDrop();
-        }
-        else {
+        } else {
             if (this._checkConnected()) {
                 // 删除需要删除的数字
                 this._delAndDrop();
@@ -158,11 +183,10 @@ cc.Class({
             //交换两个数字位置
             this._changeTwoPos(this._startPosition, this._endPosition);
             // 判断可消除的数字数量是否满足要求,不满足则再次交换回去
-            if(this._checkConnected()) {
+            if (this._checkConnected()) {
                 console.log('删除相连的数字')
                 this._check(true); // check
-            }
-            else {
+            } else {
                 console.log('不满足消除条件,退回原位置')
                 this._changeTwoPos(this._startPosition, this._endPosition);
             }
@@ -185,9 +209,9 @@ cc.Class({
 
     // 屏幕坐标转矩阵坐标
     _PositionToPos: function (x, y) {
-        let ele = cc.instantiate(this.star);
-        let eleSize = ele.getContentSize();
-        let pos = cc.v2(Math.floor((x - this.padding) / (eleSize.width + this.spacingX)), Math.floor((y - this.padding) / (eleSize.height + this.spacingY)));
+        let ele = cc.instantiate(this.star),
+            eleSize = ele.getContentSize(),
+            pos = cc.v2(Math.floor((x - this.padding) / (eleSize.width + this.spacingX)), Math.floor((y - this.padding) / (eleSize.height + this.spacingY)));
         return pos;
     },
 
@@ -217,13 +241,12 @@ cc.Class({
         this._deleteConnected();
         // 下落动画以及更新位置信息
         this._dropAndUpdata();
+        this._gameOver();
     },
 
     _checkConnected: function () {
-        // 纵向需要删除的数字数
-        let count1 = this._verticalCheckConnected();
-        // 横向需要删除的数字数
-        let count2 = this._horizontalCheckConnected();
+        let count1 = this._verticalCheckConnected(), // 纵向需要删除的数字数
+            count2 = this._horizontalCheckConnected(); // 横向需要删除的数字数
 
         // 奖励分数
         this._reward = this._calScore(count1 + count2);
@@ -239,9 +262,7 @@ cc.Class({
 
     // 纵向检查star的相连形况
     _verticalCheckConnected: function () {
-        let index1, index2;
-        let start, end;
-        let count = 0;
+        let index1, index2, start, end, count = 0;
 
         // 记录需要删除的star数
         for (let i = 0; i < this._stars.length; i++) {
@@ -280,9 +301,7 @@ cc.Class({
 
     // 横向检查star的相连情况
     _horizontalCheckConnected: function () {
-        let index1, index2;
-        let start, end;
-        let count = 0;
+        let index1, index2, start, end, count = 0;
         // 记录需删除的star数
         for (let j = 0; j < this.col; j++) {
             for (let i = 0; i < this.row;) {
@@ -339,10 +358,9 @@ cc.Class({
     // 根据mask的状态信息删除相连的star
     _deleteConnected: function () {
         for (let i = 0; i < this.row; i++) {
-            let count = 0;
-            let start = 0,
-                end;
-            let onoff = true;
+            let count = 0,
+                start = 0,
+                end, onoff = true;
             for (let j = this.col - 1; j >= 0; j--) {
                 if (this._mask[i][j] == 1) {
                     if (onoff) {
@@ -362,7 +380,6 @@ cc.Class({
                 this._mask[i][j] = 0;
             }
         }
-        this._gameOver();
         // 删除相连的stars后更新分数显示
         this._updateScore();
     },
@@ -383,20 +400,29 @@ cc.Class({
 
     _overNumber() {
         let currentNumber = cc.sys.localStorage.getItem(Event.localStorage.number);
-        if(!currentNumber) {
+        if (!currentNumber) {
             return 25;
         }
         currentNumber = parseInt(currentNumber);
-        switch(currentNumber){
-            case 1: return 25;
-            case 2: return 25;
-            case 3: return 50;
-            case 4: return 70;
-            case 5: return 80;
-            case 6: return 90;
-            case 7: return 105;
-            case 8: return 135;
-            case 9: return 145;
+        switch (currentNumber) {
+            case 1:
+                return 25;
+            case 2:
+                return 25;
+            case 3:
+                return 50;
+            case 4:
+                return 70;
+            case 5:
+                return 80;
+            case 6:
+                return 90;
+            case 7:
+                return 105;
+            case 8:
+                return 135;
+            case 9:
+                return 145;
         }
     },
 
@@ -404,7 +430,6 @@ cc.Class({
     _dropAndUpdata: function () {
         let finished = cc.callFunc(function (target) {
             this._check();
-
         }, this);
 
         let m = this._stars.length;
