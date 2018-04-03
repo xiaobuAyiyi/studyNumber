@@ -87,7 +87,6 @@ EventDispatcher.prototype.removeAllEventListener = function () {
     this.listenersByEvent = {};
     this.onceListenersByEvent = null;
     this.onceListenersByEvent = {};
-
 };
 
 /**

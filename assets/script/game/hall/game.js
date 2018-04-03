@@ -6,7 +6,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        numberButton: {
+        btn_xxl: {
             default: null,
             type: cc.Node,
             displayName: '数字消消消按钮',
@@ -18,7 +18,14 @@ cc.Class({
             type: cc.Node,
             displayName: '数水果',
             tooltip: '点击加载数水果',
-        }
+        },
+
+        btn_fsz: {
+            default: null,
+            type: cc.Node,
+            displayName: '翻数字',
+            tooltip: '点击加载翻数字',
+        },
     },
 
     onLoad() {
@@ -30,19 +37,21 @@ cc.Class({
     },
 
     _onEvent() {
-        UITools.onClick(this.numberButton, this._onNumberButton, this);
+        UITools.onClick(this.btn_xxl, this._onBtn_xxl, this);
         UITools.onClick(this.btn_ssg, this._onBtn_ssg, this);
+        UITools.onClick(this.btn_fsz, this._onBtn_fsz, this);
     },
 
     _offEvent() {
-        UITools.offClick(this.numberButton, this._onNumberButton);
+        UITools.offClick(this.btn_xxl, this._onBtn_xxl);
         UITools.offClick(this.btn_ssg, this._onBtn_ssg);
+        UITools.offClick(this.btn_fsz, this._onBtn_fsz);
     },
 
     /**
      * 数字消消乐按钮回调
      */
-    _onNumberButton() {
+    _onBtn_xxl() {
         cc.director.loadScene('game');
         smartFox.setGameType('xxl');
     },
@@ -53,5 +62,13 @@ cc.Class({
     _onBtn_ssg() {
         cc.director.loadScene('game');
         smartFox.setGameType('ssg');
+    },
+
+    /**
+     * 翻数字按钮回调
+     */
+    _onBtn_fsz() {
+        cc.director.loadScene('game');
+        smartFox.setGameType('fsz');
     },
 });
