@@ -28,6 +28,7 @@ cc.Class({
         this._initSpriteFrame();
     },
 
+    // 初始化按钮图片
     _initSpriteFrame:function(){
         function getRandomInt(min,max){
             let ratio = Math.random();

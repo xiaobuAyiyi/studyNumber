@@ -49,6 +49,7 @@ cc.Class({
         //隐藏音乐设置面板
         this._hideMusicPanel();
 
+        // 播放背景音乐
         this._playBGMusic();
     },
 
@@ -60,6 +61,7 @@ cc.Class({
         cc.audioEngine.stop();
     },
 
+    // 播放背景音乐
     _playBGMusic() {
         //将滑动器设置到上次离开时的位置
         let progress = cc.sys.localStorage.getItem(Event.localStorage.sliderProgress);
@@ -73,12 +75,14 @@ cc.Class({
         cc.audioEngine.play(this.underGroundAudio, true, this._volume);
     },
 
+    // 注册监听器
     _onEvent() {
         UITools.onClick(this.quitButton, this._onQuitButton, this);
         UITools.onClick(this.musicButton, this._onMusic, this);
         this.slider.node.on('slide', this._onSliderHEvent, this);
     },
 
+    // 移除监听器
     _offEvent() {
         UITools.offClick(this.quitButton, this._onQuitButton);
         UITools.offClick(this.musicButton, this._onMusic);

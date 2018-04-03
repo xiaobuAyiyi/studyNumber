@@ -5,7 +5,10 @@ let SmartFox = cc.Class({
         gameType: null,
     },
 
-    //设置游戏数据
+    /**
+     *设置游戏数据
+     * @param data 
+     */
     setGameType(data) {
         if(this.gameType === null) {
             this.gameType = {};

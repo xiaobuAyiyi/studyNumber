@@ -23,20 +23,24 @@ cc.Class({
         this._stopSetTimeout();
     },
     
+    // 设置一个定时器
     _startInterval() {
         this._timeID = setInterval(this._action.bind(this), 4000);
     },
 
+    // 停止定时器
     _stopInterval() {
         clearInterval(this._timeID);
         this._timeID = -1;
     },
 
+    // 设置一个暂停执行定时器
     _stopSetTimeout() {
         clearInterval(this._setTimeId);
         this._setTimeId = -1;
     },
 
+    // 动画展示
     _action() {
         let act1 = this._threeAction();
         let act2 = this._twoAction();
@@ -57,7 +61,7 @@ cc.Class({
         }
     },
 
-    //数字一和三跳动动画
+    // 数字一和三跳动动画
     _threeAction() {
         //跳跃上升
         let jumpUp = cc.moveBy(0.3, cc.p(0, 20)).easing(cc.easeCubicActionOut());
@@ -71,7 +75,7 @@ cc.Class({
         return action;
     },
 
-    //数字二动画,左右摇摆
+    // 数字二动画,左右摇摆
     _twoAction() {
         //向右旋转
         let right = cc.rotateTo(0.2, 0, 0).easing(cc.easeCubicActionOut());

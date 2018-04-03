@@ -59,69 +59,120 @@ UITools.offClick = function (target, callback, domain) {
     }
 }
 
-
-//刚刚按下还没移动时
+/**
+ * 刚刚按下还没移动时
+ * @param target 
+ * @param callback 
+ * @param domain 
+ */
 UITools.startClick = function (target, callback, domain) {
     if (target && target instanceof cc.Node) {
         target.on(cc.Node.EventType.TOUCH_START, callback, domain);
     }
 }
 
+/**
+ * 移除监听事件
+ * @param target 
+ * @param callback 
+ * @param domain 
+ */
 UITools.offStartClick = function (target, callback, domain) {
     if (target && target instanceof cc.Node) {
         target.off(cc.Node.EventType.TOUCH_START, callback, domain);
     }
 }
 
-
-//按住目标移动
+/**
+ * 按住目标移动
+ * @param target 
+ * @param  callback 
+ * @param domain 
+ */
 UITools.moveClick = function (target, callback, domain) {
     if (target && target instanceof cc.Node) {
         target.on(cc.Node.EventType.TOUCH_MOVE, callback, domain);
     }
 }
 
+/**
+ * 移除监听事件
+ * @param target 
+ * @param callback 
+ * @param domain 
+ */
 UITools.offMoveClick = function (target, callback, domain) {
     if (target && target instanceof cc.Node) {
         target.off(cc.Node.EventType.TOUCH_MOVE, callback, domain);
     }
 }
 
-// 鼠标按下取消事件
+/**
+ * 鼠标按下取消事件
+ * @param target 
+ * @param callback 
+ * @param domain 
+ */
 UITools.cancelClick = function (target, callback, domain) {
     if (target && target instanceof cc.Node) {
         target.on(cc.Node.EventType.TOUCH_CANCEL, callback, domain);
     }
 }
 
+/**
+ * 移除监听事件
+ * @param target 
+ * @param callback 
+ * @param domain 
+ */
 UITools.offCancelClick = function (target, callback, domain) {
     if (target && target instanceof cc.Node) {
         target.off(cc.Node.EventType.TOUCH_CANCEL, callback, domain);
     }
 }
 
-
-// 鼠标进入目标事件
+/**
+ * 鼠标进入目标事件
+ * @param target 
+ * @param callback 
+ * @param domain 
+ */
 UITools.enterClick = function (target, callback, domain) {
     if (target && target instanceof cc.Node) {
         target.on(cc.Node.EventType.MOUSE_ENTER, callback, domain);
     }
 }
 
+/**
+ * 移除监听事件
+ * @param target 
+ * @param callback 
+ * @param domain 
+ */
 UITools.offEnterClick = function (target, callback, domain) {
     if (target && target instanceof cc.Node) {
         target.off(cc.Node.EventType.MOUSE_ENTER, callback, domain);
     }
 }
 
-
-// 鼠标离开目标事件  
+/**
+ * 鼠标离开目标事件
+ * @param target 
+ * @param callback 
+ * @param domain 
+ */
 UITools.leaveClick = function (target, callback, domain) {
     if (target && target instanceof cc.Node) {
         target.on(cc.Node.EventType.MOUSE_LEAVE, callback, domain);
     }
 }
 
+/**
+ * 移除监听事件
+ * @param target 
+ * @param callback 
+ * @param domain 
+ */
 UITools.offLeaveClick = function (target, callback, domain) {
     if (target && target instanceof cc.Node) {
         target.off(cc.Node.EventType.MOUSE_LEAVE, callback, domain);

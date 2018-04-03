@@ -53,10 +53,10 @@ cc.Class({
         UITools.leaveClick(this.nextGame, this._zoomSmallAction, this);
         UITools.onClick(this.nextGame, this._onNextGame, this);
 
-        EventBus.on(Event.event.xiaoxiaoleOver, this._oneEliminateOver.bind(this), this);
+        EventBus.on(Event.event.gameOver, this._oneEliminateOver.bind(this), this);
     },
 
-    //注销监听事件
+    //移除监听事件
     _offEvent() {
         UITools.offEnterClick(this.backHall, this._zoomBigAction);
         UITools.offLeaveClick(this.backHall, this._zoomSmallAction);
@@ -69,12 +69,12 @@ cc.Class({
         UITools.offLeaveClick(this.nextGame, this._zoomSmallAction);
         UITools.offClick(this.nextGame, this._onNextGame);
 
-        // EventBus.off(Event.event.xiaoxiaoleOver, this._oneEliminateOver.bind(this));
+        EventBus.off(Event.event.gameOver, this._oneEliminateOver.bind(this));
     },
 
     //返回当场游戏回调
     _onBackGame() {
-        //销毁当前节点,返回当前所在游戏,发送事件使得游戏节点重新运行以生成新的游戏
+        //隐藏当前节点,返回当前所在游戏,发送事件使得游戏节点重新运行以生成新的游戏
         if(this.gameOver) {
             this.gameOver.active = false;
         }
@@ -133,6 +133,7 @@ cc.Class({
 
     //消消乐游戏结束的回调事件
     _oneEliminateOver() {
+        // 隐藏游戏结束节点
         if (this.gameOver) {
             this.gameOver.active = true;
         }

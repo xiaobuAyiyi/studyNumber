@@ -394,7 +394,7 @@ cc.Class({
         console.log('最终停止游戏的数量', this._gameOverNumber);
         if (starNumber <= this._gameOverNumber) {
             //发送事件创建结束预制
-            EventBus.emit(Event.event.xiaoxiaoleOver);
+            EventBus.emit(Event.event.gameOver);
         }
     },
 

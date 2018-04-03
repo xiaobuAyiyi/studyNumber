@@ -38,6 +38,9 @@ cc.Class({
         EventBus.off(Event.event.shushuiguoBegin, this._begin.bind(this));
     },
 
+    /**
+     * 游戏结束或者重新开始时清空内存数据
+     */
     _clearData() {
         this._mask = null;
         this._stars = null;
@@ -46,6 +49,9 @@ cc.Class({
         this._number = 9;
     },
 
+    /**
+     * 游戏重新开始的回调
+     */
     _begin() {
         this._clearData();
         this._init();
@@ -163,7 +169,7 @@ cc.Class({
     _check() {
         let min = 9 - this._currentNumber;
         if(this._number ===  min) {
-            EventBus.emit(Event.event.xiaoxiaoleOver);
+            EventBus.emit(Event.event.gameOver);
         }
     },
 });

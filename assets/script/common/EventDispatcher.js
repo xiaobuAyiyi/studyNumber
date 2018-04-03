@@ -6,29 +6,50 @@ var EventDispatcher = function () {
     this.listenersByEvent = {};
     this.onceListenersByEvent = {};
 };
-//判断是否有此侦听器
+
+/**
+ * 判断是否有此侦听器
+ * @param event 
+ */
 EventDispatcher.prototype.hasEvent = function (event) {
     return this.listenersByEvent[event] != null;
 }
 
-//判断是否有此侦听器
+/**
+ * 判断是否有此侦听器(一次性侦听器)
+ * @param event 
+ */
 EventDispatcher.prototype.hasOnceEvent = function (event) {
     return this.onceListenersByEvent[event] != null;
 }
 
-//添加事件侦听器
+/**
+ * 添加事件侦听器
+ * @param  event 事件名
+ * @param  listener 事件回调
+ * @param  listenerContext 事件作用对象
+ */
 EventDispatcher.prototype.addEventListener = function (event, listener, listenerContext) {
     null == this.listenersByEvent[event] && (this.listenersByEvent[event] = []);
     this.listenersByEvent[event].push({listener: listener, scope: listenerContext})
 };
 
-//添加一次性侦听事件
+ /**
+  * 添加一次性事件侦听器
+  * @param event 一次性事件名
+  * @param listener 监听回调
+  * @param  listenerContext 监听作用对象
+  */
 EventDispatcher.prototype.addOnceEventListener = function (event, listener, listenerContext) {
     null == this.onceListenersByEvent[event] && (this.onceListenersByEvent[event] = []);
     this.onceListenersByEvent[event].push({listener: listener, scope: listenerContext})
 };
 
-//移除事件侦听器
+/**
+ * 移除事件监听器
+ * @param  event 
+ * @param  listener 
+ */
 EventDispatcher.prototype.removeEventListener = function (event, listener) {
     var c = this.listenersByEvent[event];
     if (null != c) {
@@ -41,6 +62,11 @@ EventDispatcher.prototype.removeEventListener = function (event, listener) {
     }
 };
 
+/**
+ * 移除一次性时间监听器
+ * @param  event 事件名
+ * @param  listener 监听回调
+ */
 EventDispatcher.prototype.removeOnceEventListener = function (event, listener) {
     var c = this.onceListenersByEvent[event];
     if (null != c) {
@@ -53,7 +79,9 @@ EventDispatcher.prototype.removeOnceEventListener = function (event, listener) {
     }
 };
 
-//移除所有监听事件
+/**
+ * 移除所有监听事件
+ */
 EventDispatcher.prototype.removeAllEventListener = function () {
     this.listenersByEvent = null;
     this.listenersByEvent = {};
@@ -62,7 +90,11 @@ EventDispatcher.prototype.removeAllEventListener = function () {
 
 };
 
-//派发事件
+/**
+ * 派发事件
+ * @param  event 事件名
+ * @param  eventData 派发事件信息
+ */
 EventDispatcher.prototype.dispatchEvent = function (event, eventData) {
     //持久事件
     var c = this.listenersByEvent[event];
@@ -87,27 +119,57 @@ EventDispatcher.prototype.dispatchEvent = function (event, eventData) {
 
 };
 
+/**
+ * 派发事件
+ * @param event 事件名
+ * @param eventData 
+ */
 EventDispatcher.prototype.emit = function (event, eventData) {
     this.dispatchEvent(event, eventData);
 }
 
+/**
+ * 注册监听事件
+ * @param event 事件名
+ * @param listener 回调函数
+ * @param listenerContext 监听作用对象
+ */
 EventDispatcher.prototype.on = function (event, listener, listenerContext) {
     this.addEventListener(event, listener, listenerContext);
 }
 
+/**
+ * 注册一次性监听事件
+ * @param event 事件名
+ * @param listener 回调函数
+ * @param listenerContext 监听作用对象
+ */
 EventDispatcher.prototype.onceOn = function (event, listener, listenerContext) {
     this.addOnceEventListener(event, listener, listenerContext);
 }
 
+/**
+ * 移除监听事件
+ * @param event 事件名
+ * @param listener 监听回调函数
+ */
 EventDispatcher.prototype.off = function (event, listener) {
     this.removeEventListener(event, listener);
 }
 
+/**
+ * 移除一次性监听事件
+ * @param event 一次性事件名
+ * @param listener 一次性事件回调
+ */
 EventDispatcher.prototype.onceOff = function (event, listener) {
     this.removeOnceEventListener(event, listener);
 }
 
-//监听事件所有监听事件
+/**
+ * 根据事件名返回事件
+ * @param event 事件名
+ */
 EventDispatcher.prototype.getListeners = function (event) {
     return this.listenersByEvent[event];
 };

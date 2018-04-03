@@ -36,6 +36,7 @@ cc.Class({
         this.UI_ssg.active = false;
     },
 
+    // 控制游戏显示
     _gameActive() {
         if(smartFox === null || smartFox.gameType === null || smartFox.gameType === undefined) {
             return;

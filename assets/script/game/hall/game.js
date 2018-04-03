@@ -39,11 +39,17 @@ cc.Class({
         UITools.offClick(this.btn_ssg, this._onBtn_ssg);
     },
 
+    /**
+     * 数字消消乐按钮回调
+     */
     _onNumberButton() {
         cc.director.loadScene('game');
         smartFox.setGameType('xxl');
     },
 
+    /**
+     * 数水果按钮回调
+     */
     _onBtn_ssg() {
         cc.director.loadScene('game');
         smartFox.setGameType('ssg');

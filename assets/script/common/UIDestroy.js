@@ -24,6 +24,9 @@ cc.Class({
         UITools.onClick(this.close_node || this.node, this._onTouchUp.bind(this), this.node);
     },
 
+    /**
+     * 如果所要销毁的节点存在则销毁此节点，若不存在则销毁当前节点
+     */
     _onTouchUp: function (event) {
         if (this.destroy_node) {
             this.destroy_node.destroy();

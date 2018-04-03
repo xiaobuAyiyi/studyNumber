@@ -62,7 +62,10 @@ cc.Class({
         UITools.offClick(this.rigthtButton, this._onRigthtButton);
     },
 
-    //左按钮的回调
+    /**
+     * 左按钮的回调
+     * 点击当前数字减一
+     */
     _onLeftButton() {
         if(this.number.string != 1) {
             this.number.string--;
@@ -70,7 +73,10 @@ cc.Class({
         cc.sys.localStorage.setItem(Event.localStorage.number, this.number.string);//本地存储
     },
 
-    //右按钮的回调
+    /**
+     * 右按钮的回调
+     * 点击当前数字加一
+     */
     _onRigthtButton() {
         if(this.number.string != 9) {
             this.number.string++;

@@ -27,7 +27,10 @@ cc.Class({
         UITools.offClick(this.closeButton, this._onClose);
     },
 
-    //关闭按钮回调
+    /**
+     * 如果关闭节点存在则关闭此节点，若不存在则默认关闭当前节点
+     * @param event 监听回调信息
+     */
     _onClose(event) {
         if(this.closeNode === null) {
             this.node.active = false;

@@ -24,6 +24,9 @@ cc.Class({
         UITools.onClick(this.target, this._onTouchUp.bind(this), this.node);
     },
 
+    /**
+     * 跳转场景
+     */
     _onTouchUp: function (event) {
         cc.director.loadScene(this.senceName);
     },

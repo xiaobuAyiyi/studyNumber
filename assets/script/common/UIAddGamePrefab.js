@@ -32,6 +32,9 @@ cc.Class({
         }
     },
 
+    /**
+     * 编辑器中是否显示
+     */
     _checkEditorShow() {
         if(CC_EDITOR) {
             if(this.isShow) {
@@ -46,6 +49,9 @@ cc.Class({
         }
     },
 
+    /**
+     * 在编辑器中显示
+     */
     _showEditorOutRoot() {
         if(this.root) {
             this.root.removeAllChildren(true);
@@ -56,12 +62,19 @@ cc.Class({
         }
     },
 
+    /**
+     * 创建预制
+     * @param num 预制项下标
+     */
     _addPre(num) {
         let pre = this.prefabs[num];
         let node = cc.instantiate(pre);
         this.root.addChild(node);
     },
 
+    /**
+     * 在游戏中展示
+     */
     _showGamePre() {
         if(this._count === 0) return;
         if(this.root) {
