@@ -84,6 +84,9 @@ cc.Class({
         else if(smartFox.gameType == 'ssg') {
             EventBus.emit(Event.event.shushuiguoBegin);
         }
+        else if(smartFox.gameType == 'fsz') {
+            EventBus.emit(Event.event.fanshuziBegin);
+        }
     },
 
     //跳转到下一个游戏回调

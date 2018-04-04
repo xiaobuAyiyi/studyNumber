@@ -4,6 +4,7 @@ module.exports = {
         gameOver: 'gameOver',//游戏结束
         xiaoxiaoleBegin: 'xiaoxiaoleBegin',//消消乐游戏开始
         shushuiguoBegin: 'shushuiguoBegin',//数水果开始
+        fanshuziBegin: 'fanshuziBegin',//翻数字游戏重新开始
     },
 
     //本地存储

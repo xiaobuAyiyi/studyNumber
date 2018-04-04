@@ -19,6 +19,12 @@ cc.Class({
             displayName: '数水果',
         },
 
+        UI_fsz: {
+            default: null,
+            type: cc.Node,
+            displayName: '翻数字',
+        },
+
         gameOver: {
             default: null,
             type: cc.Node,
@@ -34,6 +40,7 @@ cc.Class({
     _init() {
         this.xiaoxiaole.active = false;
         this.UI_ssg.active = false;
+        this.UI_fsz.active = false;
     },
 
     // 控制游戏显示
@@ -45,13 +52,16 @@ cc.Class({
             if(this.xiaoxiaole) {
                 this.xiaoxiaole.active = true;
             }
-            return;
         }
-        if(smartFox.gameType === 'ssg') {
+        else if(smartFox.gameType === 'ssg') {
             if(this.UI_ssg) {
                 this.UI_ssg.active = true;
             }
-            return;
+        }
+        else if(smartFox.gameType === 'fsz') {
+            if(this.UI_fsz) {
+                this.UI_fsz.active = true;
+            }
         }
     },
 });

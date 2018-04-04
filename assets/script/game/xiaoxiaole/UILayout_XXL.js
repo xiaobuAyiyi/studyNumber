@@ -65,6 +65,8 @@ cc.Class({
     },
 
     _begin() {
+        console.log(this._stars);
+        console.log(this._mask);
         if(this._stars) {
             if(this._mask) {
                 for(let i = 0; i < this.row; i++) {
@@ -74,9 +76,9 @@ cc.Class({
                         }
                     }
                 }
+                this._deleteConnected();
             }
         }
-        this._deleteConnected();
         this._clearData();
         this._buildCoordinateSet(); // 根据配置信息生成每个元素的坐标点集合
         this._init();

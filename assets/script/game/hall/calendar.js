@@ -43,6 +43,7 @@ cc.Class({
         }
         else {
             this.number.string = 1;
+            cc.sys.localStorage.setItem(Event.localStorage.number, 1);
         }
         // console.log('当前数字', this.number.string);
     },
