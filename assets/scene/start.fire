@@ -45,7 +45,7 @@
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0,
-    "autoReleaseAssets": null
+    "autoReleaseAssets": false
   },
   {
     "__type__": "cc.Node",
@@ -1134,12 +1134,8 @@
     "_N$normalSprite": {
       "__uuid__": "6b09a434-1b00-45e9-910f-4b2ae20053c5"
     },
-    "_N$pressedSprite": {
-      "__uuid__": "19cbf38a-5a32-4947-8ccb-a2d642e13e95"
-    },
-    "pressedSprite": {
-      "__uuid__": "19cbf38a-5a32-4947-8ccb-a2d642e13e95"
-    },
+    "_N$pressedSprite": null,
+    "pressedSprite": null,
     "_N$hoverSprite": null,
     "hoverSprite": null,
     "_N$disabledSprite": null,

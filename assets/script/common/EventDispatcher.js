@@ -139,7 +139,7 @@ EventDispatcher.prototype.on = function (event, listener, listenerContext) {
 
 /**
  * 注册一次性监听事件
- * @param event 事件名
+ * @param {string} event 事件名
  * @param listener 回调函数
  * @param listenerContext 监听作用对象
  */
@@ -149,7 +149,7 @@ EventDispatcher.prototype.onceOn = function (event, listener, listenerContext) {
 
 /**
  * 移除监听事件
- * @param event 事件名
+ * @param {string} event 事件名
  * @param listener 监听回调函数
  */
 EventDispatcher.prototype.off = function (event, listener) {
