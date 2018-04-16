@@ -834,6 +834,9 @@
     },
     "btn_fsz": {
       "__id__": 33
+    },
+    "btn_szjl": {
+      "__id__": 44
     }
   },
   {
@@ -1861,7 +1864,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "game_fruit",
+    "_name": "game_SZJL",
     "_objFlags": 0,
     "_parent": {
       "__id__": 21
@@ -2144,7 +2147,7 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "2d0ab1d3-fb3b-4f45-9f98-8d90639c3f51"
+      "__uuid__": "9bfb4444-286a-46bc-a6ef-19fb16cd9d85"
     },
     "_type": 0,
     "_sizeMode": 0,

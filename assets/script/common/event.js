@@ -9,14 +9,20 @@ module.exports = {
         shushuiguoBegin: 'shushuiguoBegin',
         //翻数字游戏重新开始
         fanshuziBegin: 'fanshuziBegin',
+        // 数字接力游戏重新开始
+        shuzijieliBegin: 'shuzijieliBegin',
         //消消乐的下一个游戏
         xxlNext: 'xxlNext', 
         //数水果下一个游戏
         ssgNext: 'ssgNext', 
         //翻数字下一个游戏
         fszNext: 'fszNext', 
+        // 数字接力下一个游戏
+        szjlNext: 'szjlNext',
         // 数字接力播放背景第一个动画
         bgActionOne: 'bgActionOne',
+        // 数字接力播放背景第二个动画
+        bgActioTwo: 'bgActioTwo',
     },
 
     //本地存储

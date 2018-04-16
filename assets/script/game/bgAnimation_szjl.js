@@ -13,6 +13,14 @@ cc.Class({
 
     _onEvent() {
         EventBus.on(Event.event.bgActionOne, this._bg_one, this);
+        EventBus.on(Event.event.bgActioTwo, this._bg_two, this);
+        EventBus.on(Event.event.bgActioThree, this._bg_three, this);
+    },
+
+    _offEvent() {
+        EventBus.off(Event.event.bgActionOne, this._bg_one);
+        EventBus.off(Event.event.bgActioTwo, this._bg_two);
+        EventBus.off(Event.event.bgActioThree, this._bg_three);
     },
 
     // 播放第一个动画
@@ -28,5 +36,13 @@ cc.Class({
     // 播放第三个动画
     _bg_three() {
         this.anim.play("bg_three");
+        this._timeout();
+    },
+
+    _timeout() {
+        let me = this;
+        this._timeId = setTimeout(function () {
+            EventBus.emit(Event.event.gameOver);
+        }, 1500);
     },
 });

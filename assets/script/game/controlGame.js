@@ -26,6 +26,13 @@ cc.Class({
             displayName: '翻数字',
             tooltip: '翻数字节点',
         },
+
+        UI_szjl: {
+            default: null,
+            type: cc.Node,
+            displayName: '数字接力',
+            tooltip: '数字接力节点',
+        },
     },
 
     onLoad() {
@@ -38,6 +45,7 @@ cc.Class({
         EventBus.on(Event.event.xxlNext, this._onXxlNext.bind(this), this);
         EventBus.on(Event.event.ssgNext, this._onSsgNext.bind(this), this);
         EventBus.on(Event.event.fszNext, this._onFszNext.bind(this), this);
+        EventBus.on(Event.event.szjlNext, this._onSzjlNext.bind(this), this);
     },
 
     // 移除监听
@@ -45,6 +53,7 @@ cc.Class({
         EventBus.off(Event.event.xxlNext, this._onXxlNext.bind(this));
         EventBus.off(Event.event.ssgNext, this._onSsgNext.bind(this));
         EventBus.off(Event.event.fszNext, this._onFszNext.bind(this));
+        EventBus.on(Event.event.szjlNext, this._onSzjlNext.bind(this));
     },
 
     // 初始化
@@ -52,6 +61,7 @@ cc.Class({
         this.UI_xxl.active = false;
         this.UI_ssg.active = false;
         this.UI_fsz.active = false;
+        this.UI_szjl.active = false;
         this._gameActive();
     },
 
@@ -75,6 +85,11 @@ cc.Class({
                 this.UI_fsz.active = true;
             }
         }
+        else if(smartFox.gameType === 'szjl') {
+            if(this.UI_szjl) {
+                this.UI_szjl.active = true;
+            }
+        }
     },
 
     // 消消乐游戏结束时点击下一个按钮
@@ -96,6 +111,14 @@ cc.Class({
     // 翻数字游戏结束时点击下一个按钮
     _onFszNext() {
         this.UI_fsz.active = false;
+        this.UI_szjl.active = true;
+        EventBus.emit(Event.event.shuzijieliBegin);
+        smartFox.setGameType('szjl');
+    },
+
+    // 数字接力结束时点击下一个按钮
+    _onSzjlNext() {
+        this.UI_szjl.active = false;
         this.UI_xxl.active = true;
         EventBus.emit(Event.event.xiaoxiaoleBegin);
         smartFox.setGameType('xxl');

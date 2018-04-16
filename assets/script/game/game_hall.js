@@ -26,6 +26,13 @@ cc.Class({
             displayName: '翻数字',
             tooltip: '点击加载翻数字',
         },
+
+        btn_szjl: {
+            default: null,
+            type: cc.Node,
+            displayName: '数字接力',
+            tooltip: '点击加载数字接力',
+        }
     },
 
     onLoad() {
@@ -41,6 +48,7 @@ cc.Class({
         UITools.onClick(this.btn_xxl, this._onBtn_xxl, this);
         UITools.onClick(this.btn_ssg, this._onBtn_ssg, this);
         UITools.onClick(this.btn_fsz, this._onBtn_fsz, this);
+        UITools.onClick(this.btn_szjl, this._onBtn_szjl, this);
     },
 
     // 移除监听
@@ -48,6 +56,7 @@ cc.Class({
         UITools.offClick(this.btn_xxl, this._onBtn_xxl);
         UITools.offClick(this.btn_ssg, this._onBtn_ssg);
         UITools.offClick(this.btn_fsz, this._onBtn_fsz);
+        UITools.offClick(this.btn_szjl, this._onBtn_szjl);
     },
 
     /**
@@ -72,5 +81,13 @@ cc.Class({
     _onBtn_fsz() {
         cc.director.loadScene('game');
         smartFox.setGameType('fsz');
+    },
+
+    /**
+     * 数字接力按钮回调
+     */
+    _onBtn_szjl() {
+        cc.director.loadScene('game');
+        smartFox.setGameType('szjl');
     },
 });

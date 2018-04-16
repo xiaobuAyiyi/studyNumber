@@ -91,6 +91,9 @@ cc.Class({
         else if(smartFox.gameType == 'fsz') {
             EventBus.emit(Event.event.fanshuziBegin);
         }
+        else if (smartFox.gameType == 'szjl') {
+            EventBus.emit(Event.event.shuzijieliBegin);
+        }
     },
 
     //跳转到下一个游戏回调
@@ -109,6 +112,9 @@ cc.Class({
         }
         else if(smartFox.gameType === 'fsz') {
             EventBus.emit(Event.event.fszNext);
+        }
+        else if(smartFox.gameType === 'szjl') {
+            EventBus.emit(Event.event.szjlNext);
         }
     },
 

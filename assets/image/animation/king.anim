@@ -1,6 +1,6 @@
 {
   "__type__": "cc.AnimationClip",
-  "_name": "bg_two",
+  "_name": "king",
   "_objFlags": 0,
   "_rawFiles": null,
   "_duration": 1.5,
@@ -12,11 +12,11 @@
       "x": [
         {
           "frame": 0,
-          "value": -321
+          "value": -400
         },
         {
           "frame": 1.5,
-          "value": -1679
+          "value": 444
         }
       ]
     }
